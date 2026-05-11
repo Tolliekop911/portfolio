@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Developer Portfolio</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d1117;
+      --bg2: #161b22;
+      --bg3: #21262d;
+      --border: #30363d;
+      --text: #e6edf3;
+      --muted: #8b949e;
+      --accent: #58a6ff;
+      --accent2: #3fb950;
+      --accent3: #d2a8ff;
+      --accent4: #f78166;
+      --yellow: #e3b341;
+      --red: #f85149;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, #0d1117 0%, #1a1f36 50%, #0d1117 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 80px 24px 60px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 600px 300px at 50% 0%, rgba(88,166,255,0.08), transparent);
+      pointer-events: none;
+    }
+
+    .avatars {
+      display: flex;
+      justify-content: center;
+      gap: -16px;
+      margin-bottom: 24px;
+    }
+
+    .avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      border: 3px solid var(--bg);
+      margin: 0 -8px;
+      object-fit: cover;
+      background: var(--bg3);
+    }
+
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #e6edf3, #58a6ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 18px;
+      max-width: 500px;
+      margin: 0 auto 28px;
+    }
+
+    .account-badges {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 8px 16px;
+      font-size: 14px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .badge:hover { border-color: var(--accent); color: var(--accent); }
+    .badge img { width: 20px; height: 20px; border-radius: 50%; }
+
+    /* STATS */
+    .stats-bar {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 24px;
+    }
+
+    .stats-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+
+    .stat { text-align: center; }
+    .stat-num { font-size: 28px; font-weight: 700; color: var(--accent); }
+    .stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; }
+
+    /* MAIN CONTENT */
+    .container { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+
+    /* FILTER BAR */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+
+    .filter-bar input {
+      flex: 1;
+      min-width: 200px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      padding: 10px 16px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .filter-bar input:focus { border-color: var(--accent); }
+    .filter-bar input::placeholder { color: var(--muted); }
+
+    .filter-btn {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--muted);
+      padding: 10px 16px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(88,166,255,0.08);
+    }
+
+    .sort-select {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      padding: 10px 16px;
+      font-size: 13px;
+      cursor: pointer;
+      outline: none;
+    }
+
+    /* SECTION HEADERS */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .section-header h2 {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .section-header a {
+      margin-left: auto;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 13px;
+    }
+
+    .account-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    /* GRID */
+    .repos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    /* CARD */
+    .card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: border-color 0.2s, transform 0.2s;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .card-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--accent);
+      word-break: break-word;
+    }
+
+    .card-owner-badge {
+      font-size: 11px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 2px 8px;
+      color: var(--muted);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: var(--muted);
+      flex: 1;
+      line-height: 1.5;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: auto;
+    }
+
+    .lang-dot {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .card-stat {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .card-link {
+      margin-left: auto;
+      background: rgba(88,166,255,0.1);
+      border: 1px solid rgba(88,166,255,0.3);
+      border-radius: 6px;
+      color: var(--accent);
+      padding: 4px 10px;
+      font-size: 12px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .card-link:hover { background: rgba(88,166,255,0.2); }
+
+    /* LANG COLORS */
+    .lang-JavaScript { background: #f1e05a; }
+    .lang-TypeScript { background: #3178c6; }
+    .lang-HTML { background: #e34c26; }
+    .lang-CSS { background: #563d7c; }
+    .lang-Python { background: #3572A5; }
+    .lang-Other { background: #8b949e; }
+
+    /* LOADING + EMPTY */
+    .loading {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px;
+      color: var(--muted);
+    }
+
+    .spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .empty { grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--muted); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 32px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    footer a { color: var(--accent); text-decoration: none; }
+
+    @media (max-width: 600px) {
+      .stats-inner { gap: 24px; }
+      .filter-bar { gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="avatars">
+    <img class="avatar" id="av1" src="https://avatars.githubusercontent.com/u/159026240?v=4" alt="Tolliekop911" />
+    <img class="avatar" id="av2" src="https://avatars.githubusercontent.com/u/125134944?v=4" alt="Lolipop19967" />
+  </div>
+  <h1>Developer Portfolio</h1>
+  <p>Full-stack developer building web apps, dashboards, and tools.</p>
+  <div class="account-badges">
+    <a class="badge" href="https://github.com/Tolliekop911" target="_blank" rel="noopener">
+      <img src="https://avatars.githubusercontent.com/u/159026240?v=4" alt=""> Tolliekop911
+    </a>
+    <a class="badge" href="https://github.com/Lolipop19967" target="_blank" rel="noopener">
+      <img src="https://avatars.githubusercontent.com/u/125134944?v=4" alt=""> Lolipop19967
+    </a>
+  </div>
+</section>
+
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat"><div class="stat-num" id="total-repos">—</div><div class="stat-label">Repositories</div></div>
+    <div class="stat"><div class="stat-num" id="total-stars">—</div><div class="stat-label">Total Stars</div></div>
+    <div class="stat"><div class="stat-num" id="total-forks">—</div><div class="stat-label">Total Forks</div></div>
+    <div class="stat"><div class="stat-num" id="total-langs">—</div><div class="stat-label">Languages</div></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="filter-bar">
+    <input type="search" id="search" placeholder="🔍  Search repositories…" />
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="Tolliekop911">Tolliekop911</button>
+    <button class="filter-btn" data-filter="Lolipop19967">Lolipop19967</button>
+    <select class="sort-select" id="sort">
+      <option value="updated">Recently updated</option>
+      <option value="stars">Most stars</option>
+      <option value="name">Name A–Z</option>
+    </select>
+  </div>
+
+  <div class="repos-grid" id="grid">
+    <div class="loading"><div class="spinner"></div>Loading repositories…</div>
+  </div>
+
+</div>
+
+<footer>
+  Built with the <a href="https://docs.github.com/en/rest" target="_blank">GitHub REST API</a> · 
+  <a href="https://github.com/Tolliekop911" target="_blank">Tolliekop911</a> &amp; 
+  <a href="https://github.com/Lolipop19967" target="_blank">Lolipop19967</a>
+</footer>
+
+<script>
+  const ACCOUNTS = ['Tolliekop911', 'Lolipop19967'];
+  let allRepos = [];
+  let activeFilter = 'all';
+
+  const langColors = {
+    JavaScript: '#f1e05a', TypeScript: '#3178c6', HTML: '#e34c26',
+    CSS: '#563d7c', Python: '#3572A5', Shell: '#89e051',
+    Vue: '#41b883', Svelte: '#ff3e00', Go: '#00add8',
+    Rust: '#dea584', Ruby: '#701516', PHP: '#4f5d95',
+  };
+
+  function langColor(lang) {
+    return langColors[lang] || '#8b949e';
+  }
+
+  async function fetchRepos(user) {
+    const res = await fetch(`https://api.github.com/users/${user}/repos?per_page=100&sort=updated`);
+    if (!res.ok) throw new Error(`Failed to fetch ${user}`);
+    const data = await res.json();
+    return data.map(r => ({ ...r, _account: user }));
+  }
+
+  function timeSince(dateStr) {
+    const d = new Date(dateStr);
+    const now = new Date();
+    const diff = (now - d) / 1000;
+    if (diff < 3600) return `${Math.floor(diff/60)}m ago`;
+    if (diff < 86400) return `${Math.floor(diff/3600)}h ago`;
+    if (diff < 2592000) return `${Math.floor(diff/86400)}d ago`;
+    if (diff < 31536000) return `${Math.floor(diff/2592000)}mo ago`;
+    return `${Math.floor(diff/31536000)}y ago`;
+  }
+
+  function renderCard(repo) {
+    const lang = repo.language || null;
+    const color = lang ? langColor(lang) : '#8b949e';
+    const desc = repo.description || '<span style="font-style:italic;opacity:0.5">No description</span>';
+    return `
+      <a class="card" href="${repo.html_url}" target="_blank" rel="noopener">
+        <div class="card-top">
+          <span class="card-name">${repo.name}</span>
+          <span class="card-owner-badge">${repo._account}</span>
+        </div>
+        <p class="card-desc">${desc}</p>
+        <div class="card-footer">
+          ${lang ? `<span class="lang-dot"><span class="dot" style="background:${color}"></span>${lang}</span>` : ''}
+          ${repo.stargazers_count > 0 ? `<span class="card-stat">⭐ ${repo.stargazers_count}</span>` : ''}
+          ${repo.forks_count > 0 ? `<span class="card-stat">🍴 ${repo.forks_count}</span>` : ''}
+          <span class="card-stat" style="margin-left:auto; color: var(--muted); font-size:11px;">${timeSince(repo.updated_at)}</span>
+        </div>
+      </a>
+    `;
+  }
+
+  function getFiltered() {
+    const q = document.getElementById('search').value.toLowerCase();
+    const sort = document.getElementById('sort').value;
+    let repos = allRepos.filter(r => {
+      const matchesFilter = activeFilter === 'all' || r._account === activeFilter;
+      const matchesQ = !q || r.name.toLowerCase().includes(q) || (r.description || '').toLowerCase().includes(q) || (r.language || '').toLowerCase().includes(q);
+      return matchesFilter && matchesQ;
+    });
+    if (sort === 'stars') repos.sort((a,b) => b.stargazers_count - a.stargazers_count);
+    else if (sort === 'name') repos.sort((a,b) => a.name.localeCompare(b.name));
+    else repos.sort((a,b) => new Date(b.updated_at) - new Date(a.updated_at));
+    return repos;
+  }
+
+  function renderGrid() {
+    const grid = document.getElementById('grid');
+    const repos = getFiltered();
+    if (!repos.length) {
+      grid.innerHTML = '<div class="empty">No repositories match your search.</div>';
+      return;
+    }
+    grid.innerHTML = repos.map(renderCard).join('');
+  }
+
+  function updateStats() {
+    const stars = allRepos.reduce((s, r) => s + r.stargazers_count, 0);
+    const forks = allRepos.reduce((s, r) => s + r.forks_count, 0);
+    const langs = new Set(allRepos.map(r => r.language).filter(Boolean)).size;
+    document.getElementById('total-repos').textContent = allRepos.length;
+    document.getElementById('total-stars').textContent = stars;
+    document.getElementById('total-forks').textContent = forks;
+    document.getElementById('total-langs').textContent = langs;
+  }
+
+  async function init() {
+    try {
+      const results = await Promise.all(ACCOUNTS.map(fetchRepos));
+      allRepos = results.flat();
+      updateStats();
+      renderGrid();
+    } catch(e) {
+      document.getElementById('grid').innerHTML = `<div class="empty">Error loading repos: ${e.message}</div>`;
+    }
+  }
+
+  document.getElementById('search').addEventListener('input', renderGrid);
+  document.getElementById('sort').addEventListener('change', renderGrid);
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilter = btn.dataset.filter;
+      renderGrid();
+    });
+  });
+
+  init();
+</script>
+</body>
+</html>
